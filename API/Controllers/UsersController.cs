@@ -23,6 +23,7 @@ namespace API.Controllers
         private readonly IMapper _mapper;
 
         private readonly IPhotoService _photoService;
+
         public UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService)
         {
             _mapper = mapper;
@@ -31,6 +32,7 @@ namespace API.Controllers
 
         }
 
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
@@ -45,10 +47,9 @@ namespace API.Controllers
             Response.AddPaginationHeader(users.CurrentPage, users.PageSize,users.TotalCount, users.TotalPages);
 
             return Ok(users);
-
         }
 
-
+        
         [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
@@ -69,7 +70,6 @@ namespace API.Controllers
             if (await _userRepository.SaveAllAsync()) return NoContent();
 
             return BadRequest("Faild to update user");
-
         }
 
         [HttpPost("add-photo")]
